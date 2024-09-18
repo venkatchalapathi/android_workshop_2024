@@ -8,7 +8,7 @@
 
 
 # 2.ToastCountAPP:
-
+<img width="839" alt="one" src="https://github.com/user-attachments/assets/2db1b8af-e229-4678-be7c-d50e4c6f0c4b">
 
 Xml:
 ```
@@ -96,1411 +96,244 @@ class MainActivity : AppCompatActivity() {
 
 **========================================**
 
-## 3.ExplicitIntent App:
+## 3.Intents App:
 
+<img width="344" alt="two" src="https://github.com/user-attachments/assets/239b749b-744b-4b2d-8f88-a6eff36202a2">
 
-1.Activity_main.xml:
-_<?_ **xml version="1.0" encoding="utf-8"** _?>_
-< **LinearLayout**
-
-**xmlns:android="http://schemas.android.com/apk/res/a
-ndroid"**
-
-**xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"**
-
+1.activity_main.xml:
 
 ```
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context=".MainActivity"
-android:orientation="vertical"
-android:layout_gravity="center_vertical"
-android:gravity="center" >
-```
-```
-< TextView
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:text="Welcome to First Activity"
-android:layout_gravity="center"
-android:gravity="center"
-android:textSize="40sp"
-android:textColor="#000"
-/>
-```
-```
-< EditText
-android:id="@+id/et"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:hint="Type a Message"
-android:layout_marginTop="10dp"
-/>
-```
-```
-< Button
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:text="Next"
-android:textColor="@color/white"
-android:onClick="goNext"
-/>
-```
-</ **LinearLayout** >
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
 
+   <Button
+       android:id="@+id/explicitIntent"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:text="Explicit Intent"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Implicit Intent"
+        android:onClick="implicitIntent"/>
+</LinearLayout>
+```
 
 MainActivity.java:
 ==============
 
-**package** com.example.explicitintent;
-
-**import** androidx.appcompat.app.AppCompatActivity;
-
-**import** android.content.Intent;
-**import** android.os.Bundle;
-**import** android.view.View;
-**import** android.widget.EditText;
-
-**public class** MainActivity **extends** AppCompatActivity
-{
-
 ```
-EditText et ;
-```
-@Override
-**protected void** onCreate(Bundle
-savedInstanceState) {
-**super** .onCreate(savedInstanceState);
-setContentView(R.layout. **_activity_main_** );
+class MainActivity : AppCompatActivity() {
+    lateinit var explicitIntent:Button
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        explicitIntent = findViewById(R.id.explicitIntent)
 
-```
-et = findViewById(R.id. et );
-```
-```
+        explicitIntent.setOnClickListener {
+            val intent = Intent(this,
+                SecondActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    fun implicitIntent(view: View) {
+        val uri = Uri.parse("https://www.google.com")
+        val intent = Intent(Intent.ACTION_VIEW, uri)
+        startActivity(intent)
+    }
 }
-```
-```
-public void goNext(View view) {
-String msg = et .getText().toString().trim();
-```
-Intent i = **new** Intent(MainActivity. **this** ,
-SecondActivity. **class** );
 
 ```
-//i.putExtra( "key" , "hi" );
-i.putExtra( "key" , msg);
-```
-```
-startActivity(i);
-}
-```
-
-}
 
 Activity_second.xml:
 —-----------------------------------
-**_<?_** **xml version="1.0" encoding="utf-8"** **_?>_**
-**<LinearLayout**
+```
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SecondActivity">
 
-**xmlns:android="http://schemas.android.com/apk/res/a
-ndroid"**
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Welcome to Second Screen"
+        android:textSize="16sp"/>
 
-**xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context=".SecondActivity"
->**
+</LinearLayout>
 
 ```
-<TextView
-android:id="@+id/tv"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:text="Welcome to Second Activity"
-android:layout_gravity="center"
-android:gravity="center"
-android:textSize="30sp"/>
-```
-**</LinearLayout>**
 
 SecondActivity.java:
-
-**—---------------**
-
-
-**package com.example.explicitintent;**
-
-**import androidx.appcompat.app.AppCompatActivity;**
-
-**import android.os.Bundle;
-import android.widget.TextView;**
-
-**public class SecondActivity extends
-AppCompatActivity {**
+=========
 
 ```
-TextView tv;
-```
-**@Override
-protected void onCreate(Bundle
-savedInstanceState) {
-super.onCreate(savedInstanceState);
-setContentView(R.layout.** **_activity_second_** **);**
+class SecondActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_second)
+
+    }
+}
 
 ```
-tv = findViewById(R.id. tv );
-```
-**String receivedValue =
-getIntent().getStringExtra("key");**
-
-```
-tv.setText(receivedValue);
-```
-**}
-}**
-
-
-# Implicit Intents:
-
 ## 4.ActivityLifeCycleAPP:
 
-**==============================**
-
-**Task:
-1.Activity Life Cycle**
-
-
-
-**Ref: https://youtu.be/5b2r3Z5UcHU**
-
-**2.What is Fragment?
-3.Fragment Lifecycle**
-
-**4.Multiple Activities & Intents:**
-
-**Ref : https://youtu.be/3dsAuLkDTUc**
-
-
-## 5.InputControls:
-
-
-Xml:
-====
-_<?_ xml version="1.0" encoding="utf-8" _?>_
-<ScrollView
-
-xmlns:android="http://schemas.android.com/apk
-/res/android"
-
-xmlns:app="http://schemas.android.com/apk/res
--auto"
-
-xmlns:tools="http://schemas.android.com/tools
-"
+<img width="1013" alt="three" src="https://github.com/user-attachments/assets/51f0f950-95ee-48d7-b3d5-68166cba578a">
 
 
 ```
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context=".MainActivity"
->
-```
-```
-<LinearLayout
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:orientation="vertical"
-android:layout_margin="10dp">
-```
-```
-<EditText
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-```
-android:hint="@string/enter_your_name"
-android:layout_marginTop="10dp"/>
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        Toast.makeText(this, "onCreate", Toast.LENGTH_SHORT).show()
+    }
 
-```
-<EditText
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:hint="Enter Phone Number"
-android:inputType="phone"
-android:layout_marginTop="10dp"
-/>
-<EditText
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:hint="Enter your Email ID"
-android:inputType="textEmailAddress"
-android:layout_marginTop="10dp"
-/>
-```
+    override fun onStart() {
+        super.onStart()
+        Toast.makeText(this, "onStart", Toast.LENGTH_SHORT).show()
+    }
 
-```
-<Spinner
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:layout_marginTop="10dp"
-android:entries="@array/branches"
-/>
-```
-<androidx.appcompat.widget.AppCompatTextView
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:text="Select Your Favourites
-in Food"
-android:layout_marginVertical="10dp"
-/>
-
-```
-<LinearLayout
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
->
-```
-```
-<CheckBox
-android:layout_width="0dp"
-android:layout_weight="1"
-```
-android:layout_height="wrap_content"
-android:text="Dosa"
-/>
-<CheckBox
-android:layout_width="0dp"
-android:layout_weight="1"
-
-
-android:layout_height="wrap_content"
-android:text="Biryani"
-/>
-
-```
-</LinearLayout>
-```
-```
-<LinearLayout
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
->
-<CheckBox
-android:layout_width="0dp"
-android:layout_weight="1"
-```
-android:layout_height="wrap_content"
-android:text="Ice Cream"
-/>
-<CheckBox
-android:layout_width="0dp"
-android:layout_weight="1"
-
-android:layout_height="wrap_content"
-android:text="Fried Rice"
-/>
-</LinearLayout>
-
-```
-<RadioGroup
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:orientation="horizontal"
->
-```
-
-```
-<RadioButton
-```
-android:layout_width="wrap_content"
-
-android:layout_height="wrap_content"
-android:text="Male"
-/>
-<RadioButton
-
-android:layout_width="wrap_content"
-
-android:layout_height="wrap_content"
-android:text="FeMale"
-
-android:layout_marginHorizontal="30dp"
-/>
-<RadioButton
-
-android:layout_width="wrap_content"
-
-android:layout_height="wrap_content"
-android:text="Others"
-
-android:layout_marginHorizontal="30dp"
-/>
-
-```
-</RadioGroup>
-```
-<com.google.android.material.button.MaterialB
-utton
-
-
-```
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:text="SignUP"
-android:layout_marginVertical="20dp"
-android:onClick="signUp"
-/>
-```
-```
-</LinearLayout>
-```
-</ScrollView>
-
-MainActivity.java:
-=============
-package com.example.inputcontrolstest;
-
-import
-androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
-import android.view.View;
-
-public class MainActivity extends
-AppCompatActivity {
-
-@Override
-protected void onCreate(Bundle
-savedInstanceState) {
-super.onCreate(savedInstanceState);
-
-setContentView(R.layout.activity_main);
-
-
-### }
-
-public void signUp(View view) {
-}
+    override fun onResume() {
+        super.onResume()
+        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show()
+    }
+    override fun onPause() {
+        super.onPause()
+        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show()
+    }
+    override fun onStop() {
+        super.onStop()
+        Toast.makeText(this, "onStop", Toast.LENGTH_SHORT).show()
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        Toast.makeText(this, "onDestroy", Toast.LENGTH_SHORT).show()
+    }
+    override fun onRestart() {
+        super.onRestart()
+        Toast.makeText(this, "onRestart", Toast.LENGTH_SHORT).show()
+    }
 }
 
-Strings.xml:
-<resources>
-<string name="app_name">Input Controls
-Test</string>
-<string name="enter_your_name">Enter your
-Name</string>
-<string-array name="branches">
-<item>Select your Branch</item>
-<item>CSE</item>
-<item>ECE</item>
-<item>MECH</item>
-<item>IT</item>
-<item>AI ML</item>
-</string-array>
-</resources>
-
+```
 
 ## 6.Menus:
 
-Steps:
+<img width="1011" alt="four" src="https://github.com/user-attachments/assets/0cc253bd-a445-4e6f-bfda-cce30d7a8a1d">
 
-**Menu.xml:**
+<img width="864" alt="five" src="https://github.com/user-attachments/assets/14c6b0fe-c5f1-44d1-a13a-130d26bcceb2">
+
+Menu.xml:
 ========
-_<?_ **xml version="1.0" encoding="utf-8"** _?>_
+```
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="About us"
+        android:id="@+id/aboutusId"/>
 
+    <item android:title="Settings"
+        android:id="@+id/settingsId"/>
 
-< **menu
-xmlns:android="http://schemas.android.com/apk/res/a
-ndroid"**
-
-**xmlns:app="http://schemas.android.com/apk/res-auto"**
->
+    <item android:title="Logout"
+        android:id="@+id/logoutId"/>
+</menu>
 
 ```
-< item
-android:id="@+id/menu_settings"
-android:title="Settings"
-/>
-< item
-android:id="@+id/menu_logout"
-android:title="LogOut"
-/>
-< item
-android:id="@+id/menu_search"
-android:title="Search"
-app:showAsAction="always"
-```
-**android:icon="@drawable/ic_baseline_search_24"**
-/>
-</ **menu** >
 
-**activity_main.xml:**
+activity_main.xml
 =================
+```
 
-_<?_ **xml version="1.0" encoding="utf-8"** _?>_
-< **androidx.constraintlayout.widget.ConstraintLayout
-xmlns:android="http://schemas.android.com/apk/res/a
-ndroid"**
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
 
-**xmlns:app="http://schemas.android.com/apk/res-auto"**
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+</androidx.constraintlayout.widget.ConstraintLayout>
 
 ```
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context=".MainActivity" >
-```
-```
-< TextView
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:text="Hello World!"
-```
-**app:layout_constraintBottom_toBottomOf="parent"
-app:layout_constraintLeft_toLeftOf="parent"**
 
-**app:layout_constraintRight_toRightOf="parent"
-app:layout_constraintTop_toTopOf="parent"** />
-
-</ **androidx.constraintlayout.widget.ConstraintLayout**
->
-
-**MainActivity.java**
+MainActivity.java
 —-------------------
-**package** com.example.menus;
-
-**import** androidx.appcompat.app.AppCompatActivity;
-
-**import** android.os.Bundle;
-**import** android.view.Menu;
-
-**public class** MainActivity **extends** AppCompatActivity
-{
-
-@Override
-**protected void** onCreate(Bundle
-savedInstanceState) {
-**super** .onCreate(savedInstanceState);
-setContentView(R.layout. **_activity_main_** );
-
-
-```
-}
-```
-//Step-1
-
-```
-@Override
-public boolean onCreateOptionsMenu(Menu menu) {
-getMenuInflater().inflate(R.menu. menu , menu);
-return super .onCreateOptionsMenu(menu);
-}
-```
-//Step-2
-
-@Override
-**public boolean** onOptionsItemSelected(@NonNull
-MenuItem item) {
-
-**switch** (item.getItemId()){
-**case** R.id. **_menu_logout_** :
-Toast. _makeText_ ( **this** , **"You clicked "** +
-item.getTitle(),
-Toast. **_LENGTH_SHORT_** ).show();
-**return true** ;
-**case** R.id. **_menu_search_** :
-Toast. _makeText_ ( **this** , **"You clicked "** +
-item.getTitle(),
-Toast. **_LENGTH_SHORT_** ).show();
-**return true** ;
-**case** R.id. **_menu_settings_** :
-Toast. _makeText_ ( **this** , **"You clicked "** +
-item.getTitle(),
-Toast. **_LENGTH_SHORT_** ).show();
-
-Intent i = **new**
-Intent(MainActivity. **this** , SettingsActivity. **class** );
-startActivity(i);
-
-
-```
-return true ;
-```
-```
-}
-```
-**return super** .onOptionsItemSelected(item);
-}
-}
-
-**activity_settings.xml:**
-================
-
-_<?_ **xml version="1.0" encoding="utf-8"** _?>_
-< **androidx.constraintlayout.widget.ConstraintLayout
-xmlns:android="http://schemas.android.com/apk/res/a
-ndroid"**
-
-**xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context=".SettingsActivity"
-android:background="#8BC34A"** >
-
-</ **androidx.constraintlayout.widget.ConstraintLayout**
->
-
-**SettingsActivity.java:**
-=================
-**package** com.example.menus;
-
-**import** androidx.appcompat.app.AppCompatActivity;
-
-**import** android.os.Bundle;
-
-
-**public class** SettingsActivity **extends**
-AppCompatActivity {
-
-@Override
-**protected void** onCreate(Bundle
-savedInstanceState) {
-**super** .onCreate(savedInstanceState);
-setContentView(R.layout. **_activity_settings_** );
-}
-}
-
-OutPut:
-
-
-## FragmentLifecycle
-
-## 7.WhatsApp:ByUsingTabLayout+ViewPager
-
-
-**implementation
-'com.google.android.material:material:1.6.0'**
-
-activity_main.xml:
-**=======================**
-**_<?_** **xml version="1.0" encoding="utf-8"** **_?>_**
-**<LinearLayout**
-
-**xmlns:android="http://schemas.android.com/apk/res/a
-ndroid"**
-
-**xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context=".MainActivity"
-android:orientation="vertical">**
-
-```
-<com.google.android.material.tabs.TabLayout
-```
-
-```
-android:id="@+id/tabLayout"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-```
-**android:background="@color/design_default_color_pri
-mary"
-app:tabSelectedTextColor="@color/white"
-app:tabTextColor="#FF5722"
-/>**
-
-```
-<androidx.viewpager.widget.ViewPager
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:id="@+id/viewPager"
-/>
-```
-**</LinearLayout>**
-
-**MainActivity.java:
-==============
-package com.example.tablayoutviewpagertest;**
-
-**import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;**
-
-**import android.os.Bundle;**
-
-**import com.google.android.material.tabs.TabLayout;**
-
-**public class MainActivity extends AppCompatActivity
-{**
-
-
-```
-TabLayout tabLayout;
-```
-```
-ViewPager viewPager;
-```
-**@Override
-protected void onCreate(Bundle
-savedInstanceState) {
-super.onCreate(savedInstanceState);
-setContentView(R.layout.** **_activity_main_** **);**
-
-```
-tabLayout = findViewById(R.id. tabLayout );
-```
-```
-viewPager = findViewById(R.id. viewPager );
-```
-**MyPagerAdapter adapter = new
-MyPagerAdapter(getSupportFragmentManager());**
-
-```
-viewPager.setAdapter(adapter);
-```
-```
-tabLayout.setupWithViewPager(viewPager);
-```
-```
-}
-```
-**class MyPagerAdapter extends
-FragmentPagerAdapter {**
-
-**public MyPagerAdapter(@NonNull
-FragmentManager fm) {
-super(fm);
-}**
-
-```
-@NonNull
-@Override
-public Fragment getItem(int position) {
-switch (position){
-case 0 :
-```
-
-```
-return new ChatsFragment();
-case 1 :
-return new StatusFragment();
-case 2 :
-return new CallsFragment();
-}
-```
-```
-return null;
-}
-```
-```
-@Override
-public int getCount() {
-return 3 ;
-}
-```
-**@Nullable
-@Override
-public CharSequence getPageTitle(int
-position) {**
-
-```
-switch (position){
-case 0 :
-return "Chats";
-case 1 :
-return "Status";
-case 2 :
-return "Calls";
-}
-```
-**return super.getPageTitle(position);
-}
-}
-}**
-
-**Note:Create 3 Fragmentswithindividualxmlbackgrounds.**
-
-**Steps:**
-
-
-**OutPut:
-======**
-
-
-# 8.MoviePosters App:
-
-Example:MusicPlayerApp: **DifferentLayoutManager**
-
-
-
-
-Steps:
-
-1. Data
-2. Recyclerviewinactivity_main.xml
-3. layout.xml
-
-
-
-activity_main.xml:
-
-_<?_ xml version="1.0" encoding="utf-8" _?>_
-
-<androidx.constraintlayout.widget.ConstraintL
-ayout
-xmlns:android="http://schemas.android.com/apk
-/res/android"
-
-xmlns:app="http://schemas.android.com/apk/res
--auto"
-
-xmlns:tools="http://schemas.android.com/tools
-"
-
-```
-android:layout_width="match_parent"
-```
-```
-android:layout_height="match_parent"
-```
-```
-tools:context=".MainActivity">
-```
-```
-<androidx.recyclerview.widget.RecyclerView
-```
-```
-android:id="@+id/rv"
-```
-```
-android:layout_width="match_parent"
 ```
-```
-android:layout_height="match_parent"
-```
-
-```
-tools:listitem="@layout/row"
-```
-app:layout_constraintBottom_toBottomOf="paren
-t"
-
-app:layout_constraintEnd_toEndOf="parent"
-
-app:layout_constraintStart_toStartOf="parent"
-
-app:layout_constraintTop_toTopOf="parent" />
-
-</androidx.constraintlayout.widget.Constraint
-Layout>
-
-row.xml:
-
-**_<?_** **xml version="1.0" encoding="utf-8"** **_?>_**
-**<androidx.cardview.widget.CardView**
-
-**xmlns:android="http://schemas.android.com/apk
-/res/android"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"**
-
-**xmlns:app="http://schemas.android.com/apk/res
--auto"**
-
-
-```
-android:layout_margin="10dp"
-app:cardCornerRadius="20dp"
-android:elevation="2dp">
-<LinearLayout
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:orientation="vertical"
->
-```
-**<androidx.appcompat.widget.AppCompatImageView**
-
-**android:layout_width="match_parent"
-android:layout_height="300dp"
-android:src="@drawable/f"
-android:scaleType="fitXY"
-/>
-<TextView**
-
-**android:layout_width="match_parent"**
-
-**android:layout_height="wrap_content"
-android:text="Title"
-android:textSize="40sp"
-android:textStyle="bold"
-android:gravity="center"**
-
-**android:layout_marginVertical="10dp"
-/>**
-
-```
-</LinearLayout>
-```
-
-**</androidx.cardview.widget.CardView>**
-
-**5.Adapter:**
-
-```
-● Createaclass
-● ExtendsRecyclerview
-```
-```
-●
-```
-MainActivity.java:
-================
-package com.example.musicplayer;
-
-import
-androidx.appcompat.app.AppCompatActivity;
-import
-androidx.recyclerview.widget.GridLayoutManage
-r;
-import
-androidx.recyclerview.widget.RecyclerView;
-
-
-import android.os.Bundle;
-
-public class MainActivity extends
-AppCompatActivity {
-RecyclerView rv;
-
-@Override
-protected void onCreate(Bundle
-savedInstanceState) {
-super.onCreate(savedInstanceState);
-
-setContentView(R.layout. _activity_main_ );
-
-```
-rv = findViewById(R.id. rv );
-```
-int images[] = {R.drawable. _a_ ,
-R.drawable. _c_ ,
-R.drawable. _d_ , R.drawable. _e_ ,
-R.drawable. _f_ ,
-R.drawable. _g_ , R.drawable. _h_ ,
-R.drawable. _i_ , R.drawable. _j_ };
-
-```
-String titles[] = {"A", "B", "C", "D",
-"e","f","g","h","i","j"};
-```
-rv.setLayoutManager(new
-GridLayoutManager(this, 2 ));
-
-
-### }
-
-### }
-
-**Adapter:**
-
-Step1:
-
-
-Step-2
-
-
-Step-3
-
-Step4:
-
-Row.xml:Task-2MediaPlayer:
-
-_<?_ xml version="1.0" encoding="utf-8" _?>_
-
-
-<androidx.cardview.widget.CardView
-
-xmlns:android="http://schemas.android.com/apk
-/res/android"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+    }
+
+//Step 1
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.my_menu,menu)
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
+//Step 2
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.aboutusId ->
+                Toast.makeText(this,"About us",Toast.LENGTH_SHORT).show()
+            R.id.settingsId ->
+                Toast.makeText(this,"Settings",Toast.LENGTH_SHORT).show()
+            R.id.logoutId ->
+                Toast.makeText(this,"Settings",Toast.LENGTH_SHORT).show()
+        }
+        return super.onOptionsItemSelected(item)
+
+    }
 
-xmlns:app="http://schemas.android.com/apk/res
--auto"
-android:layout_margin="20dp"
-app:cardCornerRadius="20dp"
-android:elevation="2dp">
-<LinearLayout
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:orientation="vertical"
->
 
-<androidx.appcompat.widget.AppCompatImageView
-android:id="@+id/img"
-
-android:layout_width="match_parent"
-android:layout_height="200dp"
-android:src="@drawable/f"
-android:scaleType="fitXY"
-/>
-<TextView
-android:id="@+id/tv"
-
-android:layout_width="match_parent"
-
-
-android:layout_height="wrap_content"
-android:text="Title"
-android:textSize="40sp"
-android:textStyle="bold"
-android:gravity="center"
-
-android:layout_marginVertical="5dp"
-/>
-
-```
-<LinearLayout
-```
-android:layout_width="match_parent"
-
-android:layout_height="wrap_content"
-
-android:layout_gravity="center_vertical"
-android:gravity="center"
->
-
-<androidx.appcompat.widget.AppCompatImageView
-android:id="@+id/play"
-android:layout_width="100dp"
-android:layout_height="100dp"
-
-android:src="@drawable/ic_baseline_play_arrow
-_24"
-/>
-
-<androidx.appcompat.widget.AppCompatImageView
-android:id="@+id/pause"
-android:layout_width="100dp"
-
-
-```
-android:layout_height="100dp"
-```
-android:src="@drawable/ic_baseline_pause_24"
-
-android:layout_marginHorizontal="30dp"
-/>
-</LinearLayout>
-
-```
-</LinearLayout>
-```
-</androidx.cardview.widget.CardView>
-
-outPut:
-
-
-MainActivity.class
-====================
-package com.example.musicplayer;
-
-import
-androidx.appcompat.app.AppCompatActivity;
-import
-androidx.recyclerview.widget.GridLayoutManage
-r;
-import
-androidx.recyclerview.widget.RecyclerView;
-
-import android.os.Bundle;
-
-public class MainActivity extends
-AppCompatActivity {
-RecyclerView rv;
-
-@Override
-protected void onCreate(Bundle
-savedInstanceState) {
-super.onCreate(savedInstanceState);
-
-setContentView(R.layout. _activity_main_ );
-
-```
-rv = findViewById(R.id. rv );
-```
-int images[] = {R.drawable. _a_ ,
-R.drawable. _b_ , R.drawable. _c_ ,
-R.drawable. _d_ , R.drawable. _e_ ,
-R.drawable. _f_ ,
-
-
-R.drawable. _g_ , R.drawable. _h_ ,
-R.drawable. _i_ , R.drawable. _j_ };
-
-```
-String titles[] = {"A", "B", "C", "D",
-"e","f","g","h","i","j"};
-```
-```
-int songs[] = {R.raw. rrr };
-```
-rv.setLayoutManager(new
-GridLayoutManager(this, 2 ));
-
-_//Step-1_
-MusicPlayerAdapter adapter = new
-MusicPlayerAdapter(images, titles, songs,
-MainActivity.this);
-
-```
-//Step-3
-rv.setAdapter(adapter);
-```
-### }
-
-### }
-
-MusicPlayerAdapterClass:
-
-package com.example.musicplayer;
-
-import android.content.Context;
-import android.media.MediaPlayer;
-import android.view.LayoutInflater;
-
-
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import
-androidx.appcompat.widget.AppCompatImageView;
-import
-androidx.recyclerview.widget.RecyclerView;
-
-public class MusicPlayerAdapter extends
-RecyclerView.Adapter<MusicPlayerAdapter.Music
-Info> {
-
-```
-int posters[];
-String names[];
-int songs[];
-```
-```
-Context context;
-```
-```
-MediaPlayer mp;
-```
-public MusicPlayerAdapter(int[] images,
-String[] titles, int[] songs, Context ctx) {
-posters = images;
-names = titles;
-this.songs = songs;
-context = ctx;
 }
 
 ```
-@NonNull
-@Override
+
+themes.xml
+=========
+```
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.MyApplication" parent="Theme.AppCompat">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+    <style name="Theme.MyApplication" parent="Theme.AppCompat" />
+</resources>
+
 ```
 
-public MusicInfo
-onCreateViewHolder(@NonNull ViewGroup parent,
-int viewType) {
-_//Step-2_
-View v =
-LayoutInflater. _from_ (parent.getContext()).infl
-ate(R.layout. _row_ , parent, false);
-return new MusicInfo(v);
-}
 
-@Override
-public void onBindViewHolder(@NonNull
-MusicInfo holder, int position) {
-
-```
-holder.title.setText(names[position]);
-```
-holder.img.setImageResource(posters[position]
-);
-
-mp = MediaPlayer. _create_ (
-context,songs[ 0 ]);
-
-holder.play.setOnClickListener(new
-View.OnClickListener() {
-@Override
-public void onClick(View v) {
-
-```
-if (mp.isPlaying()) {
-mp.stop();
-}
-```
-
-```
-mp.start();
-}
-});
-```
-holder.pause.setOnClickListener(new
-View.OnClickListener() {
-@Override
-public void onClick(View v) {
-mp.stop();
-}
-});
-
-### }
-
-```
-@Override
-public int getItemCount() {
-return posters.length;
-}
-```
-public class MusicInfo extends
-RecyclerView.ViewHolder {
-
-```
-AppCompatImageView img;
-TextView title;
-```
-```
-AppCompatImageView play, pause;
-```
-public MusicInfo(@NonNull View
-itemView) {
-super(itemView);
-
-
-img =
-itemView.findViewById(R.id. _img_ );
-title =
-itemView.findViewById(R.id. _tv_ );
-
-play =
-itemView.findViewById(R.id. _play_ );
-pause =
-itemView.findViewById(R.id. _pause_ );
-
-### }
-
-### }
-
-### }
-
-# 9.CinemaTalk:
-
-Content_main.xml:
-==========================
-_<?_ xml version="1.0" encoding="utf-8" _?>_
-<LinearLayout
-
-xmlns:android="http://schemas.android.com/apk
-/res/android"
-
-
-xmlns:app="http://schemas.android.com/apk/res
--auto"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-
-app:layout_behavior="@string/appbar_scrolling
-_view_behavior">
-
-```
-<androidx.recyclerview.widget.RecyclerView
-android:id="@+id/rv"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-/>
-```
-</LinearLayout>
-
-Activity_main.xml:
-
-==============
-_<?_ xml version="1.0" encoding="utf-8" _?>_
-<androidx.coordinatorlayout.widget.Coordinato
-rLayout
-
-xmlns:android="http://schemas.android.com/apk
-/res/android"
-
-xmlns:app="http://schemas.android.com/apk/res
--auto"
-
-xmlns:tools="http://schemas.android.com/tools
-"
-android:layout_width="match_parent"
-
-
-```
-android:layout_height="match_parent"
-tools:context=".MainActivity">
-```
-<com.google.android.material.appbar.AppBarLay
-out
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-
-android:theme="@style/Theme.CinemaTalk.AppBar
-Overlay">
-
-```
-<androidx.appcompat.widget.Toolbar
-android:id="@+id/toolbar"
-```
-android:layout_width="match_parent"
-
-android:layout_height="?attr/actionBarSize"
-
-android:background="?attr/colorPrimary"
-
-app:popupTheme="@style/Theme.CinemaTalk.Popup
-Overlay" />
-
-</com.google.android.material.appbar.AppBarLa
-yout>
-
-```
-<include layout="@layout/content_main" />
-```
-
-<com.google.android.material.floatingactionbu
-tton.FloatingActionButton
-android:id="@+id/fab"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:layout_gravity="bottom|end"
-
-android:layout_marginEnd="@dimen/fab_margin"
-android:layout_marginBottom="16dp"
-
-app:srcCompat="@drawable/ic_baseline_favorite
-_border_24" />
-
-</androidx.coordinatorlayout.widget.Coordinat
-orLayout>
-
-MainActivity.java:
-
-=================
-package com.example.cinematalk;
-
-import android.os.Bundle;
-
-import
-com.google.android.material.snackbar.Snackbar
-;
-
-import
-androidx.appcompat.app.AppCompatActivity;
-
-import android.view.View;
-
-
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import
-androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
-import
-com.example.cinematalk.databinding.ActivityMa
-inBinding;
-
-import android.view.Menu;
-import android.view.MenuItem;
-
-public class MainActivity extends
-AppCompatActivity {
-
-```
-private ActivityMainBinding binding;
-```
-@Override
-protected void onCreate(Bundle
-savedInstanceState) {
-super.onCreate(savedInstanceState);
-
-binding =
-ActivityMainBinding. _inflate_ (getLayoutInflater
-());
-setContentView(binding.getRoot());
-
-```
-setSupportActionBar(binding.toolbar);
-```
-binding.fab.setOnClickListener(new
-View.OnClickListener() {
-
-
-@Override
-public void onClick(View view) {
-Snackbar. _make_ (view, "Replace
-with your own action", Snackbar. _LENGTH_LONG_ )
-.setAction("Action",
-null).show();
-}
-});
-}
-
-@Override
-public boolean onCreateOptionsMenu(Menu
-menu) {
-_// Inflate the menu; this adds items
-to the action bar if it is present._
-
-getMenuInflater().inflate(R.menu. _menu_main_ ,
-menu);
-return true;
-}
-
-@Override
-public boolean
-onOptionsItemSelected(MenuItem item) {
-_// Handle action bar item clicks here.
-The action bar will
-// automatically handle clicks on the
-Home/Up button, so long
-// as you specify a parent activity in
-AndroidManifest.xml._
-int id = item.getItemId();
-
-
-```
-//noinspection SimplifiableIfStatement
-if (id == R.id. action_settings ) {
-return true;
-}
-```
-return
-super.onOptionsItemSelected(item);
-}
-
-### }
-
-
-# Databases: 3 Types
-
-1. SharedPreference
-2. SQLite
-3. Files
 
 
 
