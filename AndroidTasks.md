@@ -333,7 +333,205 @@ themes.xml
 
 ```
 
+# 7. Whats App
+===============
+<img width="356" alt="Screenshot 2024-09-19 at 8 05 26 AM" src="https://github.com/user-attachments/assets/8e2b1365-7f6f-4cd6-ac98-65bfd8ae3d6a">
 
+Steps to implement What's app kind of app
+
+1. Create new android studio project "WhatsApp"(project name)
+2. Open activity_main.xml -> Change root layout to LinearLayout and add orientation as vertical
+3. Take TabView and ViewPager inside activity_main.xml
+    <img width="1021" alt="Screenshot 2024-09-19 at 7 35 53 AM" src="https://github.com/user-attachments/assets/5165827d-067f-4fa5-9ae5-06c10b09b418">
+4. Configure tabview and viewpager to the MainActivity.kt
+    <img width="1059" alt="Screenshot 2024-09-19 at 7 45 06 AM" src="https://github.com/user-attachments/assets/457552a3-f979-4f1f-ad32-66d7b63915a1">
+
+
+MainActivity.kt
+===============
+```
+class MainActivity : AppCompatActivity() {
+    lateinit var tab:TabLayout
+    lateinit var viewPager: ViewPager
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        tab = findViewById(R.id.tab)
+        viewPager = findViewById(R.id.viewpager)
+
+        viewPager.adapter = MyAdapter(supportFragmentManager)
+        tab.setupWithViewPager(viewPager)
+
+    }
+}
+
+class MyAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm){
+
+    override fun getCount(): Int {
+        return 3
+    }
+
+    override fun getItem(position: Int): Fragment {
+        when(position){
+            0 -> return ChatsFragment()
+            1 -> return CallsFragment()
+            2 -> return StatusFragment()
+            else -> return ChatsFragment()
+        }
+    }
+
+    override fun getPageTitle(position: Int): CharSequence {
+        when (position) {
+            0 -> return "Chats"
+            1 -> return "Calls"
+            2 -> return "Status"
+            else -> return "Chats"
+        }
+    }
+}
+
+```
+
+actvity_main.xml
+=======
+```
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+   <com.google.android.material.tabs.TabLayout
+       android:id="@+id/tab"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:background="#59CFE6"/>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>
+```
+
+ChatsFragment.kt
+====
+
+```
+class ChatsFragment : Fragment() {
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_chats, container, false)
+    }
+
+}
+
+```
+fragment_chats.xml
+=====
+```
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#AA9E9E">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Chats Fragment"
+        android:gravity="center"/>
+
+</LinearLayout>
+
+```
+
+CallsFragment.kt
+====
+```
+class CallsFragment : Fragment() {
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_calls, container, false)
+    }
+
+}
+
+```
+fragment_calls.xml
+===
+```
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F1E8E8"
+    tools:context=".CallsFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Calls Fragment"
+        android:gravity="center"/>
+
+</LinearLayout>
+
+```
+
+StatusFragment.kt
+=====
+```
+class StatusFragment : Fragment() {
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_status, container, false)
+    }
+
+}
+
+```
+
+fragment_status.xml
+=====
+```
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#CEF1D4">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Status Fragment"
+        android:gravity="center"/>
+
+</LinearLayout>
+```
 
 
 
