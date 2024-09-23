@@ -533,5 +533,125 @@ fragment_status.xml
 </LinearLayout>
 ```
 
+# 8. MoviesApp
+==========
+
+<img width="340" alt="Screenshot 2024-09-23 at 7 11 37 AM" src="https://github.com/user-attachments/assets/5d89e898-eee5-4716-acc6-965923809d42">
+
+activity_main.xml
+======
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/rec"/>
+</LinearLayout>
+```
+
+MainActivity.kt
+====
+
+```
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+
+class MainActivity : AppCompatActivity() {
+    lateinit var rec:RecyclerView
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        rec = findViewById(R.id.rec)
+
+        val images = mutableListOf(R.drawable.a,R.drawable.b,R.drawable.c,R.drawable.d,R.drawable.e,
+            R.drawable.f,R.drawable.a,R.drawable.b,R.drawable.c,R.drawable.d,R.drawable.e,
+            R.drawable.f,R.drawable.a,R.drawable.b,R.drawable.c,R.drawable.d,R.drawable.e,
+            R.drawable.f,)
+
+        val names = mutableListOf("Kalki","comitte kurrallu","Hi nana","Devara","Pushpa",
+            "Bahubali","Kalki","comitte kurrallu","Hi nana","Devara","Pushpa",
+            "Bahubali","Kalki","comitte kurrallu","Hi nana","Devara","Pushpa",
+            "Bahubali",)
+
+        rec.layoutManager = LinearLayoutManager(this)
+        rec.adapter = MovieAdapter(this,names,images)
+    }
+}
+```
+
+MovieAdapter.kt
+====
+
+```
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+
+class MovieAdapter(val context:MainActivity,val names: List<String>,val images: List<Int>):RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
+    class ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView) {
+        var image:ImageView = itemView.findViewById(R.id.image)
+        var name:TextView = itemView.findViewById(R.id.name)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieAdapter.ViewHolder {
+        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.row,parent,false))
+    }
+
+    override fun onBindViewHolder(holder: MovieAdapter.ViewHolder, position: Int) {
+
+        Glide.with(context).load(images[position]).into(holder.image)
+
+        holder.name.text = names[position]
+    }
+
+    override fun getItemCount(): Int {
+        return names.size
+    }
+}
+```
+
+row.xml
+===
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_margin="10dp"
+    android:background="#E9DEDE">
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="150dp"
+        android:layout_height="150dp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/name"/>
+
+</LinearLayout>
+```
+
 
 
