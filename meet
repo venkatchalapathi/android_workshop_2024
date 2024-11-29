@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bug Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main class="container">
+        <h1 class="heading">Bug Tracker</h1>
+        <div id="bug-list" class="bug-list">
+            <!-- Bug cards will be inserted here by JavaScript -->
+        </div>
+        <button id="preview-button" class="preview-button" style="display: none;">Preview</button>
+    </main>
+
+    <template id="bug-card-template">
+        <div class="bug-card">
+            <div class="bug-card-header">
+                <h2 class="bug-title"></h2>
+                <span class="bug-id"></span>
+            </div>
+            <p class="bug-assignee"></p>
+            <p class="bug-created-date"></p>
+            <div class="bug-card-details" style="display: none;">
+                <form class="bug-card-form">
+                    <div class="form-group">
+                        <label for="comment">Comment</label>
+                        <textarea class="input-field" id="comment" placeholder="Enter comment"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="component">Component</label>
+                        <select class="input-field" id="component">
+                            <option value="">Select a component</option>
+                            <option value="frontend">Frontend</option>
+                            <option value="backend">Backend</option>
+                            <option value="database">Database</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Type</label>
+                        <div class="radio-group">
+                            <label>
+                                <input type="radio" name="type" value="UI" class="radio-input"> UI
+                            </label>
+                            <label>
+                                <input type="radio" name="type" value="Non-UI" class="radio-input"> Non-UI
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="newAssignee">New Assignee</label>
+                        <input type="text" class="input-field" id="newAssignee" placeholder="Enter new assignee">
+                    </div>
+                    <button type="submit" class="submit-button">Submit</button>
+                </form>
+            </div>
+        </div>
+    </template>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+..........
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+}
+
+.container {
+    width: 80%;
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.heading {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.bug-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.bug-card {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    cursor: pointer;
+}
+
+.bug-card.raised-by-director {
+    background-color: #fef3c7;
+}
+
+.bug-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.bug-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.bug-id {
+    font-size: 12px;
+    color: gray;
+}
+
+.bug-assignee, .bug-created-date {
+    font-size: 14px;
+    color: gray;
+}
+
+.bug-card-details {
+    margin-top: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.label {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.input-field {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.radio-group {
+    display: flex;
+    gap: 10px;
+}
+
+.radio-input {
+    margin-right: 5px;
+}
+
+.submit-button {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.submit-button:hover {
+    background-color: #45a049;
+}
+
+.preview-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.preview-button:hover {
+    background-color: #0056b3;
+}
+
+........
+
+document.addEventListener("DOMContentLoaded", () => {
+    const bugs = [
+        { id: '1', title: 'Login page not responsive', assignee: 'John Doe', createdDate: '2023-05-15', raisedByDirector: true, resolved: false },
+        { id: '2', title: 'Button color inconsistent', assignee: 'Jane Smith', createdDate: '2023-05-16', raisedByDirector: false, resolved: false },
+        { id: '3', title: 'Form validation error', assignee: 'Bob Johnson', createdDate: '2023-05-17', raisedByDirector: false, resolved: false },
+    ];
+
+    const bugList = document.getElementById("bug-list");
+    const previewButton = document.getElementById("preview-button");
+
+    bugs.forEach(bug => {
+        const bugCardTemplate = document.getElementById("bug-card-template");
+        const bugCard = bugCardTemplate.content.cloneNode(true);
+        const bugCardElement = bugCard.querySelector(".bug-card");
+
+        if (bug.raisedByDirector) {
+            bugCardElement.classList.add("raised-by-director");
+        }
+
+        bugCardElement.querySelector(".bug-title").textContent = bug.title;
+        bugCardElement.querySelector(".bug-id").textContent = `ID: ${bug.id}`;
+        bugCardElement.querySelector(".bug-assignee").textContent = `Assignee: ${bug.assignee}`;
+        bugCardElement.querySelector(".bug-created-date").textContent = `Created: ${bug.createdDate}`;
+
+        const bugDetails = bugCardElement.querySelector(".bug-card-details");
+
+        bugCardElement.addEventListener("click", () => {
+            bugDetails.style.display = (bugDetails.style.display === "none" || bugDetails.style.display === "") ? "block" : "none";
+        });
+
+        const form = bugCardElement.querySelector(".bug-card-form");
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            console.log({
+                comment: form.querySelector("#comment").value,
+                component: form.querySelector("#component").value,
+                type: form.querySelector("input[name='type']:checked")?.value,
+                newAssignee: form.querySelector("#newAssignee").value
+            });
+            bugList.removeChild(bugCardElement);
+            previewButton.style.display = "block"; // Show the preview button
+        });
+
+        bugList.appendChild(bugCardElement);
+    });
+
+    previewButton.addEventListener("click", () => {
+        alert("Preview clicked!");
+    });
+});
